@@ -1,0 +1,23 @@
+
+
+
+===============================================================
+Create a user defined network
+    docker network create keycloak-network
+
+Start a PostgreSQL instance
+    docker run -d   --name postgres \
+                    --net keycloak-network \
+                    -e POSTGRES_DB=keycloak \
+                    -e POSTGRES_USER=keycloak \
+                    -e POSTGRES_PASSWORD=password postgres
+
+Start a Keycloak instance
+    docker run  \
+                --name keycloak \
+                --net keycloak-network \
+                jboss/keycloak \
+                -e DB_USER=keycloak \
+                -e DB_PASSWORD=password
+
+docker run -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin jboss/keycloak:10.0.0

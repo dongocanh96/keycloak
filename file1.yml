@@ -1,0 +1,29 @@
+version: '3.8'
+networks:
+  gateway:
+    external: true
+    name: gateway
+
+services:
+  keycloak:
+    image: jboss/keycloak:10.0.0
+    container_name: keycloak
+    volumes:
+      - ./realm-config:/opt/jboss/keycloak/realm-config
+    environment:
+      - KEYCLOAK_USER=admin
+      - KEYCLOAK_PASSWORD=admin
+#      - KEYCLOAK_IMPORT=/opt/jboss/keycloak/realm-config/realm-export.json
+      - DB_VENDOR=postgres
+      - DB_DATABASE=postgres
+      - DB_USER=dev_csr
+      - DB_PASSWORD=K2htGb6kP4DSdnNbMjHCp4Gj
+      - DB_PORT=5432
+    # If you want to expose these ports outside your dev PC,
+    # remove the "127.0.0.1:" prefix
+    ports:
+      - 9080:8080
+      - 9443:9443
+      - 10990:10990
+    networks:
+      - gateway
